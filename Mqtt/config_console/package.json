@@ -1,0 +1,19 @@
+{
+  "name": "config_console",
+  "version": "1.0.0",
+  "description": "Publica as mudanças nos tópicos",
+  "main": "prompt.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node main.js"
+  },
+  "keywords": [
+    "mqtt"
+  ],
+  "author": "lucasmapurunga@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^2.17.0",
+    "inquirer": "^5.2.0"
+  }
+}
