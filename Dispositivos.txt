@@ -1,0 +1,3 @@
+### Porta da Garagem
+- Abre com distância <= 400cm (4m)
+- Pode ser aberta ou fechada pelo console
