@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
 
     selected: function(stuff) {
@@ -5,7 +7,7 @@ module.exports = {
     },
 
     separation: function() {
-        console.log('===========================');
+        console.log('-----------------------------------');
     },
 
     jump: function() {

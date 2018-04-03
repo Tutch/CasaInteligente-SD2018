@@ -1,3 +1,5 @@
+'use strict';
+
 var inquirer = require('inquirer');
 var options = require('./options');
 var format = require('./format_helper');
@@ -15,26 +17,26 @@ class Prompt {
       });
     }
 
-    garagem(doorIsOpen) {
+    porta(doorIsOpen) {
       return new Promise((resolve, reject) => {
-        format.selected('Porta da Garagem');
+        format.selected('Porta Principal');
       
         if(!doorIsOpen) {
-          console.log('Estado da porta da garagem: FECHADA');
+          console.log('Estado da porta: FECHADA');
     
           inquirer.prompt(options.open_door).then(answers => {
             if(answers.open_door == true) {
-              resolve('abre');
+              resolve(true);
             }else {
               reject();
             }
           });
         }else {
-          console.log('Estado da porta da garagem: ABERTA');
+          console.log('Estado da porta: ABERTA');
         
           inquirer.prompt(options.close_door).then(answers => {
             if(answers.close_door == true) {
-              resolve('fecha');
+              resolve(false);
             }else {
               reject();
             }
@@ -42,6 +44,36 @@ class Prompt {
         }
       });
     }
+
+    televisao(doorIsOpen) {
+      return new Promise((resolve, reject) => {
+        format.selected('Televisão da Sala');
+      
+        if(!doorIsOpen) {
+          console.log('Estado da televisão: DESLIGADA');
+    
+          inquirer.prompt(options.turn_tv_on).then(answers => {
+            if(answers.turn_tv_on == true) {
+              resolve(true);
+            }else {
+              reject();
+            }
+          });
+        }else {
+          console.log('Estado da televisão: LIGADA');
+        
+          inquirer.prompt(options.turn_tv_off).then(answers => {
+            if(answers.turn_tv_off == true) {
+              resolve(false);
+            }else {
+              reject();
+            }
+          });
+        }
+      });
+    }
+
+
 }
 
 module.exports = Prompt;
