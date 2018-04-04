@@ -54,11 +54,46 @@ var turn_tv_off = [
     }
 ]
 
+var turn_air_on = [
+    {
+        type: 'confirm',
+        name: 'turn_air_on',
+        message: 'Deseja ligar o ar-condicionado principal?'
+    }
+]
+
+var turn_air_off = [
+    {
+        type: 'confirm',
+        name: 'turn_air_off',
+        message: 'Deseja desligar o ar-condicionado principal?'
+    }
+]
+
+var turn_lamp_on = [
+    {
+        type: 'confirm',
+        name: 'turn_lamp_on',
+        message: 'Deseja ligar a lâmpada?'
+    }
+]
+
+var turn_lamp_off = [
+    {
+        type: 'confirm',
+        name: 'turn_lamp_off',
+        message: 'Deseja desligar a lâmpada?'
+    }
+]
 
 module.exports = {
     device_config: device_config,
     open_door: open_door,
     close_door: close_door,
     turn_tv_on: turn_tv_on,
-    turn_tv_off: turn_tv_off
+    turn_tv_off: turn_tv_off,
+    turn_air_on: turn_air_on,
+    turn_air_off: turn_air_off,
+    turn_lamp_on: turn_lamp_on,
+    turn_lamp_off: turn_lamp_off
 }

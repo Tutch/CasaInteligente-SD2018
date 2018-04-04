@@ -4,8 +4,6 @@ var inquirer = require('inquirer');
 var options = require('./options');
 var format = require('./format_helper');
 
-var teste = '';
-
 class Prompt {
     constructor() {}
 
@@ -17,25 +15,25 @@ class Prompt {
       });
     }
 
-    porta(doorIsOpen) {
+    equipment(status, strings, option_states) {
       return new Promise((resolve, reject) => {
-        format.selected('Porta Principal');
-      
-        if(!doorIsOpen) {
-          console.log('Estado da porta: FECHADA');
-    
-          inquirer.prompt(options.open_door).then(answers => {
-            if(answers.open_door == true) {
+        format.selected(strings.main);
+        
+        if(!status) {
+          console.log(strings.state_off);
+
+          inquirer.prompt(options[option_states['on']]).then(answers => {
+            if(answers[option_states['on']] == true) {
               resolve(true);
             }else {
               reject();
             }
           });
         }else {
-          console.log('Estado da porta: ABERTA');
+          console.log(strings.state_on);
         
-          inquirer.prompt(options.close_door).then(answers => {
-            if(answers.close_door == true) {
+          inquirer.prompt(options[option_states['off']]).then(answers => {
+            if(answers[option_states['off']] == true) {
               resolve(false);
             }else {
               reject();
@@ -44,35 +42,6 @@ class Prompt {
         }
       });
     }
-
-    televisao(doorIsOpen) {
-      return new Promise((resolve, reject) => {
-        format.selected('Televisão da Sala');
-      
-        if(!doorIsOpen) {
-          console.log('Estado da televisão: DESLIGADA');
-    
-          inquirer.prompt(options.turn_tv_on).then(answers => {
-            if(answers.turn_tv_on == true) {
-              resolve(true);
-            }else {
-              reject();
-            }
-          });
-        }else {
-          console.log('Estado da televisão: LIGADA');
-        
-          inquirer.prompt(options.turn_tv_off).then(answers => {
-            if(answers.turn_tv_off == true) {
-              resolve(false);
-            }else {
-              reject();
-            }
-          });
-        }
-      });
-    }
-
 
 }
 
