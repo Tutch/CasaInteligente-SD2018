@@ -9,7 +9,8 @@ module.exports = {
         'porta',
         'televisao',
         'ar',
-        'lampada'
+        'lampada',
+        'arduino'
     ],
 
     estado: {
@@ -67,6 +68,26 @@ module.exports = {
             states: {
                 on: 'turn_lamp_on',
                 off: 'turn_lamp_off'
+            }
+        },
+        arduino: {
+            control: {
+                'led': false,
+                status: {
+                    'temperatura':'',
+                    'luz':'',
+                    'pres':'',
+                    'proximidade':''
+                }
+            },
+            strings: {
+                main:  'Estado do Arduino',
+                state_on: 'Estado do LED: LIGADO',
+                state_off: 'Estado do LED: DESLIGADO',
+            },
+            states: {
+                on: 'turn_led_on',
+                off: 'turn_led_off'
             }
         }
     }

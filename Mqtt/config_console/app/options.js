@@ -1,23 +1,11 @@
 'use strict';
 
-function onlyNumbers(value) {
-    return value.match(/^[0-9]*$/) && value != '' ? true : 'Apenas números são permitidos.';
-}
-
-function onlyLetters(value) {
-    return value.match(/^[a-zA-Z_]*$/) && value != '' ? true : 'Apenas letras são permitidas.';
-}
-
-function onlyLettersAndNumbers(value) {
-    return value.match(/^[a-zA-Z0-9_]*$/) && value != '' ? true : 'Apenas letras e números são permitidos.';
-}
-
 var device_config = [
     {
         type: 'list',
         name: 'device_config',
         message: 'Qual equipamento você deseja?',
-        choices: ['Porta','Televisão da Sala','Ar-Condicionado', 'Lâmpada'],
+        choices: ['Porta','Televisão da Sala','Ar-Condicionado', 'Lâmpada', 'Arduíno'],
         filter: function(val) { return val.toLowerCase();}
     }
 ]
@@ -86,6 +74,23 @@ var turn_lamp_off = [
     }
 ]
 
+var turn_led_on = [
+    {
+        type: 'confirm',
+        name: 'turn_led_on',
+        message: 'Deseja ligar o LED do arduíno?'
+    }
+]
+
+var turn_led_off = [
+    {
+        type: 'confirm',
+        name: 'turn_led_off',
+        message: 'Deseja desligar o LED do arduíno?'
+    }
+]
+
+
 module.exports = {
     device_config: device_config,
     open_door: open_door,
@@ -95,5 +100,7 @@ module.exports = {
     turn_air_on: turn_air_on,
     turn_air_off: turn_air_off,
     turn_lamp_on: turn_lamp_on,
-    turn_lamp_off: turn_lamp_off
+    turn_lamp_off: turn_lamp_off,
+    turn_led_on: turn_led_on,
+    turn_led_off: turn_led_off
 }

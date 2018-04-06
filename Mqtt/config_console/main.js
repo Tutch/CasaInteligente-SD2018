@@ -28,6 +28,21 @@ cliente.on('message', function(topic, msg){
         case 'lampada-out':
             estado.lampada.control.ligada = message.ligada;
             break;
+        case 'arduino-out':
+            estado.arduino.control = message;
+            let main_string = 'Arduíno:';
+
+            if(estado.arduino.control.status.temperatura != undefined) {
+                main_string = `Arduíno:`
+                            + ` Temperatura:${estado.arduino.control.status.temperatura},`
+                            + ` Luminosidade:${estado.arduino.control.status.luz},`
+                            + ` Presença:${estado.arduino.control.status.pres},`
+                            + ` Proximidade:${estado.arduino.control.status.proximidade}`;
+            }
+
+            estado.arduino.strings.main = main_string;
+
+            break;
     }
 
  }) 
@@ -49,6 +64,10 @@ cliente.on('connect', function () {
     estadoPrompt(prompt);
 })
 
+function copyObj(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 function estadoPrompt(prompt) {
     prompt.init().then(data => {
         format.separation();
@@ -58,7 +77,7 @@ function estadoPrompt(prompt) {
                 prompt.equipment(estado.porta.control.aberta, 
                                  estado.porta.strings, 
                                  estado.porta.states).then(status => {
-                    let obj_copy = estado.porta.control;
+                    let obj_copy = copyObj(estado.porta.control);
                     obj_copy.aberta = status
                     cliente.publish('porta-in', JSON.stringify(obj_copy));
                     estadoPrompt(prompt);
@@ -71,7 +90,7 @@ function estadoPrompt(prompt) {
                 prompt.equipment(estado.televisao.control.ligada,
                                  estado.televisao.strings,
                                  estado.televisao.states).then(status => {
-                    let obj_copy = estado.televisao.control;
+                    let obj_copy =  copyObj(estado.televisao.control);
                     obj_copy.ligada = status
                     cliente.publish('televisao-in', JSON.stringify(obj_copy));
                     estadoPrompt(prompt);
@@ -84,7 +103,7 @@ function estadoPrompt(prompt) {
                 prompt.equipment(estado.ar.control.ligado,
                           estado.ar.strings,
                           estado.ar.states).then(status => {
-                    let obj_copy = estado.ar.control;
+                    let obj_copy = copyObj(estado.ar.control);
                     obj_copy.ligado = status
                     cliente.publish('ar-in', JSON.stringify(obj_copy));
                     estadoPrompt(prompt);
@@ -97,9 +116,22 @@ function estadoPrompt(prompt) {
                 prompt.equipment(estado.lampada.control.ligada,
                           estado.lampada.strings,
                           estado.lampada.states).then(status => {
-                    let obj_copy = estado.lampada.control;
+                    let obj_copy = copyObj(estado.lampada.control);
                     obj_copy.ligada = status
                     cliente.publish('lampada-in', JSON.stringify(obj_copy));
+                    estadoPrompt(prompt);
+                }).catch(err => {
+                    //usado como rejeição do prompt
+                    estadoPrompt(prompt);
+                });
+                break;
+            case 'arduíno':
+                prompt.equipment(estado.arduino.control.led,
+                          estado.arduino.strings,
+                          estado.arduino.states).then(status => {
+                    let obj_copy = copyObj(estado.arduino.control);
+                    obj_copy.led = status;
+                    cliente.publish('arduino-in', JSON.stringify(obj_copy));
                     estadoPrompt(prompt);
                 }).catch(err => {
                     //usado como rejeição do prompt
