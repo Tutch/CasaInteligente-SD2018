@@ -1,7 +1,7 @@
 var SerialPort = require('serialport'); 
 var serialData = '';
 var jsonData = {};
-var COM = 'COM5'; // porta serial para conectar
+var COM = 'COM6'; // porta serial para conectar
 var BAUD_RATE = 9600; 
 
 var serialPort = new SerialPort(COM, {

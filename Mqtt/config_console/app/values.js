@@ -81,7 +81,7 @@ module.exports = {
                 }
             },
             strings: {
-                main:  'Estado do Arduino',
+                main:  'Estado do Arduino:',
                 state_on: 'Estado do LED: LIGADO',
                 state_off: 'Estado do LED: DESLIGADO',
             },

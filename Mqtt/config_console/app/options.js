@@ -1,11 +1,14 @@
 'use strict';
 
+var inquirer = require('inquirer');
+
 var device_config = [
     {
         type: 'list',
         name: 'device_config',
         message: 'Qual equipamento você deseja?',
-        choices: ['Porta','Televisão da Sala','Ar-Condicionado', 'Lâmpada', 'Arduíno'],
+        choices: ['Porta','Televisão da Sala','Ar-Condicionado', 'Lâmpada', 'Arduíno', new inquirer.Separator('\n\n')],
+        pageSize: 50,
         filter: function(val) { return val.toLowerCase();}
     }
 ]

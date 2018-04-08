@@ -2,9 +2,13 @@
 
 const Prompt = require('./app/prompt');
 const format = require('./app/format_helper');
+var inquirer = require('inquirer');
 var values = require('./app/values');
 var mqtt = require('mqtt');
 var cliente = mqtt.connect('mqtt://localhost:1883');
+
+var loaderString = '';
+var ui;
 
 var mqtt_conectado = false;
 const TIMEOUT = 10000;
@@ -30,17 +34,15 @@ cliente.on('message', function(topic, msg){
             break;
         case 'arduino-out':
             estado.arduino.control = message;
-            let main_string = 'Arduíno:';
-
+            
             if(estado.arduino.control.status.temperatura != undefined) {
-                main_string = `Arduíno:`
-                            + ` Temperatura:${estado.arduino.control.status.temperatura},`
+                loaderString = ` Temperatura:${estado.arduino.control.status.temperatura},`
                             + ` Luminosidade:${estado.arduino.control.status.luz},`
                             + ` Presença:${estado.arduino.control.status.pres},`
                             + ` Proximidade:${estado.arduino.control.status.proximidade}`;
+            
+                ui.updateBottomBar(loaderString);
             }
-
-            estado.arduino.strings.main = main_string;
 
             break;
     }
@@ -69,7 +71,9 @@ function copyObj(obj) {
 }
 
 function estadoPrompt(prompt) {
+    ui = new inquirer.ui.BottomBar({ bottomBar: '' });
     prompt.init().then(data => {
+        ui.close();
         format.separation();
 
         switch(data) {

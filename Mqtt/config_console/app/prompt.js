@@ -4,6 +4,7 @@ var inquirer = require('inquirer');
 var options = require('./options');
 var format = require('./format_helper');
 
+
 class Prompt {
     constructor() {}
 
@@ -16,6 +17,7 @@ class Prompt {
     }
 
     equipment(status, strings, option_states) {
+
       return new Promise((resolve, reject) => {
         format.selected(strings.main);
         

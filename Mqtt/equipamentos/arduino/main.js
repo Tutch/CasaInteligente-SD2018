@@ -17,6 +17,7 @@ var estado = {
 
 function topic_handler(message) {
     if(message == 'status') {
+        console.log('Pediram meu status.')
         return JSON.stringify(estado.arduino);
     }
 
@@ -24,11 +25,13 @@ function topic_handler(message) {
     
     try{
         if (json && typeof(json) === "object") {
+            console.log('Comando recebido:')
             estado.arduino.led = json.led;
             let data = json.led ? 'ON' : 'OFF';
             
             // Escreve para a Serial
             ArduinoComm.serialPort.write(data, function(err) {
+                console.log('Enviando comando para o Arduino.')
                 if (err) {
                     return console.log('Error on write: ', err.message);
                 }
@@ -43,8 +46,18 @@ function topic_handler(message) {
 
 cliente.on('message', function(topic, msg){
     let message = topic_handler(msg.toString());
+    console.log('Publicando mensagem no tópico.');
     cliente.publish(`${MAIN_TOPIC}-out`, message);
 }) 
+
+// Atualiza o tópico a cada 5 segundos independente 
+// do status ter sido requisitado por alguém
+setInterval(() => {
+    if(estado.arduino.status != undefined) {
+        console.log('Atualizando status.');
+        cliente.publish(`${MAIN_TOPIC}-out`, JSON.stringify(estado.arduino));
+    }
+}, 10000);
 
 // Tenta conectar com o Mqtt de antemão
 cliente.on('connect', function () { 	

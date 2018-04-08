@@ -14,6 +14,7 @@ var estado = {
 
 function topic_handler(message) {
     if(message == 'status') {
+        console.log('Pediram meu status.')
         return JSON.stringify(estado.televisao);
     }
 
@@ -21,6 +22,7 @@ function topic_handler(message) {
 
     try{
         if (json && typeof(json) === "object") {
+            console.log('Comando recebido:')
             estado.televisao.ligada = json.ligada;
             return JSON.stringify(estado.televisao);
         }
@@ -31,6 +33,7 @@ function topic_handler(message) {
 
 cliente.on('message', function(topic, msg){
     let message = topic_handler(msg.toString());
+    console.log('Publicando mensagem no tópico.');
     cliente.publish(`${MAIN_TOPIC}-out`, message);
 }) 
 
